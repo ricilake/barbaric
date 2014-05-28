@@ -52,17 +52,17 @@ or   : COMBINING_BAR bar
 expression
      : alternation                         %dprec 2
      | expression ',' alternation          %dprec 1
-          { $$ = concatf("%s, %s", $1, $3); free($1); free($3); }
+          { $$ = concatf("[%s, %s]", $1, $3); free($1); free($3); }
      ;
 alternation
      : conjunction                         %dprec 2
      | alternation or conjunction          %dprec 1
-          { $$ = concatf(u8"%s \u2016 %s", $1, $3); free($1); free($3); }
+          { $$ = concatf(u8"[%s \u2016 %s]", $1, $3); free($1); free($3); }
      ;
 conjunction
      : term                                %dprec 2
      | conjunction "&&" term               %dprec 1
-          { $$ = concatf(u8"%s && %s", $1, $3); free($1); free($3); }
+          { $$ = concatf(u8"[%s && %s]", $1, $3); free($1); free($3); }
      ;
 term : NUMBER
      | IDENTIFIER
